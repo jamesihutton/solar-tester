@@ -30,7 +30,7 @@ void setup() {
 
   disableCurrent();
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 
@@ -48,20 +48,20 @@ void loop() {
   float v = checkVolts();
 
   //if 0V... not connected....
-  /*
+  
   if (v <= 0.1) {
     pass = false;
     lcd.clear();
     lcd.setCursor(0,0);
-    lcd.print("      NOT");
+    lcd.print("   NO SOLAR   ");
     lcd.setCursor(0,1);
     lcd.print("   CONNECTED");
     return;
   }
-  */
+  
   
   lcd.print(v);
-  lcd.print("Volts");
+  lcd.print("Volts      ");
   togglePassLed();
   checkSerial();
   lcd.setCursor(0,1);
@@ -89,11 +89,24 @@ void loop() {
 
 void checkSerial()
 {
+  
+  //Serial.write('.');
   if (Serial.available()) {
     char c = Serial.read();
     if (c == '*') {
-      Serial.print('!');
-      Serial.print(pass_thresh);
+
+      
+      while(1) {
+
+        Serial.print('#');
+        Serial.println(pass_thresh);
+  
+        if (Serial.read() == '+') {break;}
+        delay(20);
+      }
+
+      
+      
       serial_connected = true;
       lcd.clear();
       lcd.setCursor(0,0);
@@ -104,6 +117,7 @@ void checkSerial()
       //stream amps forever (until disconnected and unplugged)
       analogReference(EXTERNAL);
       enableCurrent();
+      digitalWrite(pass_led, LOW);
       while(1){
        
         //get adc reading
@@ -124,6 +138,15 @@ void checkSerial()
         Serial.print(a);
         Serial.print('$');
         delay(25);
+
+        if (Serial.available()) {
+            char c = Serial.read();
+            if (c == 'x') {
+              serial_connected = false;
+              return;
+            }
+        }
+        
       }
       
     }
