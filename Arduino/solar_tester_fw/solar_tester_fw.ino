@@ -17,6 +17,7 @@ const int pass_led = 5, curr_en = 7;
 uint32_t pass_thresh = 0;
 bool pass = false;
 bool pass_led_state = false;
+bool serial_connected = false;
 void setup() {
   //set adc reference to external vref (2.5v)
   analogReference(EXTERNAL);
@@ -28,6 +29,8 @@ void setup() {
   pinMode(curr_en, OUTPUT);
 
   disableCurrent();
+
+  Serial.begin(9600);
 }
 
 
@@ -39,11 +42,13 @@ void loop() {
   //re-check the trimpot for pass threshold
   updatePassThresh();
 
+  checkSerial();
   
   lcd.setCursor(0,0);
   float v = checkVolts();
 
   //if 0V... not connected....
+  /*
   if (v <= 0.1) {
     pass = false;
     lcd.clear();
@@ -53,10 +58,12 @@ void loop() {
     lcd.print("   CONNECTED");
     return;
   }
+  */
   
-  lcd.print(checkVolts());
+  lcd.print(v);
   lcd.print("Volts");
   togglePassLed();
+  checkSerial();
   lcd.setCursor(0,1);
   uint32_t mA = checkAmps();
   lcd.print(mA);
@@ -79,6 +86,50 @@ void loop() {
   
 
 }
+
+void checkSerial()
+{
+  if (Serial.available()) {
+    char c = Serial.read();
+    if (c == '*') {
+      Serial.print('!');
+      Serial.print(pass_thresh);
+      serial_connected = true;
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("   CONNECTED  ");
+      lcd.setCursor(0,1);
+      lcd.print("    to PC!  ");
+      
+      //stream amps forever (until disconnected and unplugged)
+      analogReference(EXTERNAL);
+      enableCurrent();
+      while(1){
+       
+        //get adc reading
+        uint32_t a = 0;
+      
+        for (int i = 0; i<10; i++) {  //average 1000 readings
+          a += analogRead(adc_sol_amps);
+        }
+        a /= 10;
+      
+        //do the math
+        a = map(a, 0, 1024, 0, 2500); //convert 10-bit value to 2.5volts
+        a /= 10;    //convert to amps
+        a -= ((0.06 * a) - 1.36); //adjust for FET leakage
+        Serial.print('!');
+        Serial.print(a);
+        Serial.print('%');
+        Serial.print(a);
+        Serial.print('$');
+        delay(25);
+      }
+      
+    }
+  }
+}
+
 
 void togglePassLed()
 {

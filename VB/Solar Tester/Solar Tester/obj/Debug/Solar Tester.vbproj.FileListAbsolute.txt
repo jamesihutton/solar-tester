@@ -1,0 +1,12 @@
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\bin\Debug\Solar Tester.exe.config
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\bin\Debug\Solar Tester.exe
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\bin\Debug\Solar Tester.pdb
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\bin\Debug\Solar Tester.xml
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar Tester.vbprojAssemblyReference.cache
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar_Tester.Form1.resources
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar_Tester.Resources.resources
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar Tester.vbproj.GenerateResource.cache
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar Tester.vbproj.CoreCompileInputs.cache
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar Tester.exe
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar Tester.xml
+C:\Users\char\Documents\GALCOM\solar tester\solar tester\VB\Solar Tester\Solar Tester\obj\Debug\Solar Tester.pdb
