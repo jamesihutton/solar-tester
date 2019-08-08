@@ -30,37 +30,59 @@
         search_timer.Enabled = True
     End Sub
 
+
+
     Private Sub graph_timer_Tick(sender As Object, e As EventArgs) Handles graph_timer.Tick
 
-        checkSerial()
-        If Not newVal Then Exit Sub
+        check_port_connection()
+        If Not port_connected Then Exit Sub
 
-        mA = (mA + y(199) + y(198) + y(197) + y(196)) / 5.0
+        If port.BytesToRead Then
+            Try
+                Dim s As String = port.ReadExisting
+                Dim s1 As String = Mid(s, s.IndexOf("!") + 2, s.Length - (s.Length - s.IndexOf("%")) - 1)
+                Dim s2 As String = Mid(s, s.IndexOf("%") + 2, s.IndexOf("$") - s.IndexOf("%") - 1)
+                If s1 = s2 Then
+                    mA = Convert.ToInt32(s1)
 
-        label_val.Text = mA & "mA"
+                End If
 
-        If mA >= thresh Then
-            Chart1.Series("mA").Color = Color.Green
-            label_val.ForeColor = Color.Green
-            label_pf.ForeColor = Color.Green
-            label_pf.Text = "PASS"
-        Else
-            Chart1.Series("mA").Color = Color.Red
-            label_val.ForeColor = Color.Red
-            label_pf.ForeColor = Color.Red
-            label_pf.Text = "FAIL"
+
+            Catch ex As Exception
+            End Try
+
+
+
+            label_val.Text = mA & "mA"
+
+            If mA >= thresh Then
+                Chart1.Series("mA").Color = Color.Green
+                label_val.ForeColor = Color.Green
+                label_pf.ForeColor = Color.Green
+                label_pf.Text = "PASS"
+            Else
+                Chart1.Series("mA").Color = Color.Red
+                label_val.ForeColor = Color.Red
+                label_pf.ForeColor = Color.Red
+                label_pf.Text = "FAIL"
+            End If
+
+            Chart1.Series("mA").Points.Clear()
+
+            'shift y vals along x
+            For i As Int32 = 0 To 198 Step 1
+                y(i) = y(i + 1)
+                Chart1.Series("mA").Points.AddXY(i, y(i))
+            Next
+            y(199) = mA
+
         End If
 
-        Chart1.Series("mA").Points.Clear()
+        port.Write("*")
 
-        'shift y vals along x
-        For i As Int32 = 0 To 198 Step 1
-            y(i) = y(i + 1)
-            Chart1.Series("mA").Points.AddXY(i, y(i))
-        Next
-        y(199) = mA
 
-        newVal = False
+
+
 
     End Sub
 
@@ -121,75 +143,47 @@
     Sub port_search()
 
 
-        Dim searcher As New Management.ManagementObjectSearcher(
-           "root\cimv2",
-           "SELECT * FROM Win32_SerialPort")
 
-        For Each sp As String In My.Computer.Ports.SerialPortNames
-            Try
-                Dim found As Boolean = False
-                Dim desc As String = "null"
-                For Each queryObj As Management.ManagementObject In searcher.Get()
-                    desc = queryObj("Name")
-                    If desc.Contains(sp) Then
-                        found = True
-                        Exit For
-
-                    End If
-                Next queryObj
-
-                If desc.Contains("USB") Or Not found Then
-
-                    port = New IO.Ports.SerialPort(sp, 115200, IO.Ports.Parity.None, 8, IO.Ports.StopBits.One)
-                    port.ReadTimeout = 700
-                    port.WriteTimeout = 700
-                    port.Open()
-
-                    port.WriteLine("*")
-                    Threading.Thread.Sleep(100)
-                    If port.BytesToRead Then
-                        Dim s As String
-                        port.ReadLine()
-                        s = port.ReadLine()
-
-                        If s.Contains("#") Then
-
-                            s = Mid(s, s.IndexOf("#") + 2, s.Length - 2)
-                            thresh = Convert.ToInt16(s)
-                            label_thresh.Text = "(Pass threshold: " & thresh & "mA)"
-
-                            port.WriteLine("+")
-                            port.ReadExisting()
-                            port_connected = True
-
-                            'update graphics
-                            Chart1.Visible = True
-                            label_thresh.Visible = True
-                            label_pf.Visible = True
-                            label_val.Visible = True
-                            label_conn.Visible = False
+        Try
+            port = New IO.Ports.SerialPort("COM16", 115200, IO.Ports.Parity.None, 8, IO.Ports.StopBits.One)
+            port.ReadTimeout = 700
+            port.WriteTimeout = 700
+            port.Open()
 
 
-                            graph_timer.Enabled = True
-                            Exit Sub
-                        End If
-                    Else
-                        If port.IsOpen Then port.Close()
-                    End If
+            port.WriteLine("*")
+            Threading.Thread.Sleep(100)
+            If port.BytesToRead Then
 
-                End If
-            Catch ex As Exception
+                port.ReadExisting()
+                    port_connected = True
+
+                    'update graphics
+                    Chart1.Visible = True
+                    label_thresh.Visible = True
+                    label_pf.Visible = True
+                    label_val.Visible = True
+                    label_conn.Visible = False
+
+
+                    graph_timer.Enabled = True
+                Exit Sub
+            Else
+                ' port.WriteLine("xxxxxxxxxx")
                 If port.IsOpen Then port.Close()
-            End Try
+            End If
+        Catch ex As Exception
+            If port.IsOpen Then port.Close()
+        End Try
 
-        Next
 
     End Sub
 
 
     Private Sub frmSimple_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
-        If port.IsOpen Then port.WriteLine("xxxxxxxxxx")
+        '  If port.IsOpen Then port.WriteLine("xxxxxxxxxx")
     End Sub
+
 
 End Class
 

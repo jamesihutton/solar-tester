@@ -25,6 +25,8 @@ void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   lcd.setCursor(0, 0);
+  lcd.print("x");
+  lcd.setCursor(0, 0);
   pinMode(pass_led, OUTPUT);
   pinMode(curr_en, OUTPUT);
 
@@ -42,7 +44,7 @@ void loop() {
   //re-check the trimpot for pass threshold
   updatePassThresh();
 
-  checkSerial();
+  //checkSerial();
   
   lcd.setCursor(0,0);
   float v = checkVolts();
@@ -63,7 +65,7 @@ void loop() {
   lcd.print(v);
   lcd.print("Volts      ");
   togglePassLed();
-  checkSerial();
+  //checkSerial();
   lcd.setCursor(0,1);
   uint32_t mA = checkAmps();
   lcd.print(mA);
@@ -83,7 +85,8 @@ void loop() {
     digitalWrite(pass_led, LOW);
     pass = false;
   }
-  
+
+  checkSerial();
 
 }
 
@@ -95,7 +98,7 @@ void checkSerial()
     char c = Serial.read();
     if (c == '*') {
 
-      
+     /* 
       while(1) {
 
         Serial.print('#');
@@ -104,7 +107,7 @@ void checkSerial()
         if (Serial.read() == '+') {break;}
         delay(20);
       }
-
+      */
       
       
       serial_connected = true;
