@@ -123,10 +123,11 @@ void checkSerial()
         //get adc reading
         uint32_t a = 0;
       
-        for (int i = 0; i<10; i++) {  //average 1000 readings
+        for (int i = 0; i<25; i++) {  //average 10 readings
           a += analogRead(adc_sol_amps);
+          delay(1);
         }
-        a /= 10;
+        a /= 25;
       
         //do the math
         a = map(a, 0, 1024, 0, 2500); //convert 10-bit value to 2.5volts
@@ -137,7 +138,7 @@ void checkSerial()
         Serial.print('%');
         Serial.print(a);
         Serial.print('$');
-        delay(25);
+        
 
         if (Serial.available()) {
             char c = Serial.read();

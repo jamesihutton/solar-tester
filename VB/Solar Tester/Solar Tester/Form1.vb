@@ -114,45 +114,75 @@
     End Sub
 
 
+
+
+
+
     Sub port_search()
 
-        Try
-            port.PortName = "COM16"
-            port.Open()
+
+        Dim searcher As New Management.ManagementObjectSearcher(
+           "root\cimv2",
+           "SELECT * FROM Win32_SerialPort")
+
+        For Each sp As String In My.Computer.Ports.SerialPortNames
+            Try
+                Dim found As Boolean = False
+                Dim desc As String = "null"
+                For Each queryObj As Management.ManagementObject In searcher.Get()
+                    desc = queryObj("Name")
+                    If desc.Contains(sp) Then
+                        found = True
+                        Exit For
+
+                    End If
+                Next queryObj
+
+                If desc.Contains("USB") Or Not found Then
+
+                    port = New IO.Ports.SerialPort(sp, 115200, IO.Ports.Parity.None, 8, IO.Ports.StopBits.One)
+                    port.ReadTimeout = 700
+                    port.WriteTimeout = 700
+                    port.Open()
+
+                    port.WriteLine("*")
+                    Threading.Thread.Sleep(100)
+                    If port.BytesToRead Then
+                        Dim s As String
+                        port.ReadLine()
+                        s = port.ReadLine()
+
+                        If s.Contains("#") Then
+
+                            s = Mid(s, s.IndexOf("#") + 2, s.Length - 2)
+                            thresh = Convert.ToInt16(s)
+                            label_thresh.Text = "(Pass threshold: " & thresh & "mA)"
+
+                            port.WriteLine("+")
+                            port.ReadExisting()
+                            port_connected = True
+
+                            'update graphics
+                            Chart1.Visible = True
+                            label_thresh.Visible = True
+                            label_pf.Visible = True
+                            label_val.Visible = True
+                            label_conn.Visible = False
 
 
-            port.WriteLine("*")
-            Threading.Thread.Sleep(100)
-            If port.BytesToRead Then
-                Dim s As String
-                port.ReadLine()
-                s = port.ReadLine()
+                            graph_timer.Enabled = True
+                            Exit Sub
+                        End If
+                    Else
+                        If port.IsOpen Then port.Close()
+                    End If
 
-                If s.Contains("#") Then
-
-                    s = Mid(s, s.IndexOf("#") + 2, s.Length - 2)
-                    thresh = Convert.ToInt16(s)
-                    label_thresh.Text = "(Pass threshold: " & thresh & "mA)"
-
-                    port.WriteLine("+")
-                    port.ReadExisting()
-                    port_connected = True
-
-                    'update graphics
-                    Chart1.Visible = True
-                    label_thresh.Visible = True
-                    label_pf.Visible = True
-                    label_val.Visible = True
-                    label_conn.Visible = False
-
-
-                    graph_timer.Enabled = True
-                    Exit Sub
                 End If
-            End If
-        Catch ex As Exception
-        End Try
-            port.Close()
+            Catch ex As Exception
+                If port.IsOpen Then port.Close()
+            End Try
+
+        Next
 
     End Sub
 
