@@ -1,0 +1,4 @@
+'Ensure only integers are between the ::
+
+thresh (mA) :22:
+comm port :16:
