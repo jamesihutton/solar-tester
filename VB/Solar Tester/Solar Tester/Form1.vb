@@ -142,6 +142,7 @@
                 Dim s2 As String = Mid(s, s.IndexOf("%") + 2, s.IndexOf("$") - s.IndexOf("%") - 1)
                 If s1 = s2 Then
                     mA = Convert.ToInt32(s1)
+                    If mA < 15 Then mA = 0
                     newVal = True
                 End If
 
