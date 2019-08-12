@@ -20,6 +20,7 @@ const int aveCount = 50;
 uint32_t amps[aveCount];
 uint32_t ampAve;
 uint32_t volts = 1000;
+uint32_t v[3];
 
 uint32_t thresh = 24;
 
@@ -123,7 +124,11 @@ void sendAmps()
   if (!conn) {return;}
   if (!dataReq) {return;}
 
-  if (volts <= 2) {
+  for (int i=2; i>0; i--) {v[i] = v[i-1];}
+  v[0] = volts;
+  uint32_t vsum=0;
+  for (int i=0; i<3; i++) {vsum += v[i];}
+  if (vsum <= 6) {
     Serial.print('!');
     Serial.print(0);
     Serial.print('%');

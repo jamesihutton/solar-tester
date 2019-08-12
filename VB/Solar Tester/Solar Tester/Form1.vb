@@ -86,7 +86,7 @@
                 label_val.ForeColor = Color.Green
                 label_pf.ForeColor = Color.Green
                 label_pf.Text = "PASS"
-            ElseIf mA <= 10 Then
+            ElseIf mA <= 5 Then
                 Chart1.Series("mA").Color = Color.Gray
                 label_val.Text = "--mA"
                 label_val.ForeColor = Color.Gray
