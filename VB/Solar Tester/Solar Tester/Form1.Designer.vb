@@ -23,9 +23,9 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend5 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.port = New System.IO.Ports.SerialPort(Me.components)
         Me.label_thresh = New System.Windows.Forms.Label()
         Me.graph_timer = New System.Windows.Forms.Timer(Me.components)
@@ -45,7 +45,7 @@ Partial Class Form1
         '
         Me.label_thresh.AutoSize = True
         Me.label_thresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.label_thresh.Location = New System.Drawing.Point(996, 508)
+        Me.label_thresh.Location = New System.Drawing.Point(1498, 810)
         Me.label_thresh.Name = "label_thresh"
         Me.label_thresh.Size = New System.Drawing.Size(283, 29)
         Me.label_thresh.TabIndex = 0
@@ -57,32 +57,32 @@ Partial Class Form1
         '
         'search_timer
         '
-        Me.search_timer.Interval = 300
+        Me.search_timer.Interval = 1000
         '
         'Chart1
         '
         Me.Chart1.BackColor = System.Drawing.Color.Transparent
         Me.Chart1.BorderlineColor = System.Drawing.Color.Transparent
-        ChartArea5.AxisX.LabelStyle.Enabled = False
-        ChartArea5.AxisX.MajorGrid.Enabled = False
-        ChartArea5.AxisX.MajorTickMark.Enabled = False
-        ChartArea5.AxisY.Interval = 5.0R
-        ChartArea5.BackColor = System.Drawing.Color.Transparent
-        ChartArea5.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea5)
-        Legend5.Enabled = False
-        Legend5.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend5)
-        Me.Chart1.Location = New System.Drawing.Point(12, 32)
+        ChartArea1.AxisX.LabelStyle.Enabled = False
+        ChartArea1.AxisX.MajorGrid.Enabled = False
+        ChartArea1.AxisX.MajorTickMark.Enabled = False
+        ChartArea1.AxisY.Interval = 5.0R
+        ChartArea1.BackColor = System.Drawing.Color.Transparent
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea1)
+        Legend1.Enabled = False
+        Legend1.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend1)
+        Me.Chart1.Location = New System.Drawing.Point(1, 3)
         Me.Chart1.Name = "Chart1"
-        Series5.BorderWidth = 5
-        Series5.ChartArea = "ChartArea1"
-        Series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline
-        Series5.Color = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Series5.Legend = "Legend1"
-        Series5.Name = "mA"
-        Me.Chart1.Series.Add(Series5)
-        Me.Chart1.Size = New System.Drawing.Size(986, 644)
+        Series1.BorderWidth = 5
+        Series1.ChartArea = "ChartArea1"
+        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline
+        Series1.Color = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Series1.Legend = "Legend1"
+        Series1.Name = "mA"
+        Me.Chart1.Series.Add(Series1)
+        Me.Chart1.Size = New System.Drawing.Size(1519, 893)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
         '
@@ -91,7 +91,7 @@ Partial Class Form1
         Me.label_val.AutoSize = True
         Me.label_val.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.label_val.ForeColor = System.Drawing.Color.Red
-        Me.label_val.Location = New System.Drawing.Point(1056, 169)
+        Me.label_val.Location = New System.Drawing.Point(1570, 414)
         Me.label_val.Name = "label_val"
         Me.label_val.Size = New System.Drawing.Size(152, 46)
         Me.label_val.TabIndex = 2
@@ -102,7 +102,7 @@ Partial Class Form1
         '
         Me.label_pf.AutoSize = True
         Me.label_pf.Font = New System.Drawing.Font("Microsoft Sans Serif", 48.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.label_pf.Location = New System.Drawing.Point(1029, 334)
+        Me.label_pf.Location = New System.Drawing.Point(1538, 693)
         Me.label_pf.Name = "label_pf"
         Me.label_pf.Size = New System.Drawing.Size(211, 91)
         Me.label_pf.TabIndex = 3
@@ -113,7 +113,7 @@ Partial Class Form1
         Me.label_conn.AutoSize = True
         Me.label_conn.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.label_conn.ForeColor = System.Drawing.Color.Black
-        Me.label_conn.Location = New System.Drawing.Point(489, 334)
+        Me.label_conn.Location = New System.Drawing.Point(709, 414)
         Me.label_conn.Name = "label_conn"
         Me.label_conn.Size = New System.Drawing.Size(393, 92)
         Me.label_conn.TabIndex = 2
@@ -125,14 +125,15 @@ Partial Class Form1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1337, 749)
+        Me.ClientSize = New System.Drawing.Size(1806, 908)
         Me.Controls.Add(Me.label_pf)
         Me.Controls.Add(Me.label_conn)
         Me.Controls.Add(Me.label_val)
-        Me.Controls.Add(Me.Chart1)
         Me.Controls.Add(Me.label_thresh)
+        Me.Controls.Add(Me.Chart1)
         Me.Name = "Form1"
         Me.Text = "Form1"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

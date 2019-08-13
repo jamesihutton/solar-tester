@@ -185,7 +185,7 @@
         check_port_connection()
         If port_found Then
             Try
-                Threading.Thread.Sleep(3000)
+                Threading.Thread.Sleep(5000)
                 port = New IO.Ports.SerialPort(portName, 115200, IO.Ports.Parity.None, 8, IO.Ports.StopBits.One)
                 port.ReadTimeout = 1000
                 port.WriteTimeout = 1000
